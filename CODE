@@ -69,9 +69,9 @@ class SpatialAttention(nn.Module):
         x = self.conv1(x)
         return self.sigmoid(x)
 
-class HAIM(nn.Module):
+class DFR(nn.Module):
     def __init__(self, in_channel):
-        super(HAIM, self).__init__()
+        super(DFR, self).__init__()
         self.relu = nn.ReLU(True)
         self.rgb_branch1 = BasicConv2d(in_channel, in_channel/4, 3, padding=1, dilation=1)
         self.rgb_branch2 = BasicConv2d(in_channel, in_channel/4, 3, padding=3, dilation=3)
@@ -241,19 +241,19 @@ class decoder(nn.Module):
         return s1, s2, s3, s4, s5
 
 
-class HAIMNet_VGG(nn.Module):
+class DFR_VGG(nn.Module):
     def __init__(self, channel=32):
-        super(HAIMNet_VGG, self).__init__()
+        super(DFR_VGG, self).__init__()
         #Backbone model
 
         self.vgg = B2_VGG('rgb')
         self.vgg_dep = B2_VGG('dep')
 
-        self.haim_5 = HAIM(512)
-        self.haim_4 = HAIM(512)
-        self.haim_3 = HAIM(256)
-        self.haim_2 = HAIM(128)
-        self.haim_1 = HAIM(64)
+        self.haim_5 = DFR(512)
+        self.haim_4 = DFR(512)
+        self.haim_3 = DFR(256)
+        self.haim_2 = DFR(128)
+        self.haim_1 = DFR(64)
 
         # self.agg2_rgbd = aggregation(channel)
         self.decoder_rgbd = decoder(512)
